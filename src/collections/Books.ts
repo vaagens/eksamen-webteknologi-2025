@@ -4,6 +4,7 @@ export const Books: CollectionConfig = {
   slug: 'books',
   admin: {
     useAsTitle: 'title',
+    defaultColumns: ['coverImage', 'title', 'author', 'stock', 'price'],
   },
   fields: [
     {
