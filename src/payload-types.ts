@@ -248,6 +248,10 @@ export interface Book {
   price?: number | null;
   author: (number | Author)[];
   genres?: (number | Genre)[] | null;
+  /**
+   * Last opp et bilde som er minst 400x600 piksler for best kvalitet
+   */
+  coverImage?: (number | null) | Media;
   updatedAt: string;
   createdAt: string;
 }
@@ -435,6 +439,7 @@ export interface BooksSelect<T extends boolean = true> {
   price?: T;
   author?: T;
   genres?: T;
+  coverImage?: T;
   updatedAt?: T;
   createdAt?: T;
 }
