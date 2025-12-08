@@ -1,4 +1,4 @@
-import { CollectionConfig} from 'payload'
+import { CollectionConfig } from 'payload'
 
 export const Authors: CollectionConfig = {
   slug: 'authors',
@@ -28,6 +28,14 @@ export const Authors: CollectionConfig = {
       relationTo: 'media',
       label: 'Bilde av forfatter',
       required: false,
+    },
+    {
+      name: 'bio',
+      type: 'richText',
+      label: 'Kort presentasjon av forfatteren',
+      admin: {
+        description: 'Skriv en kort biografi av forfatteren som vises på nettsiden',
+      },
     },
   ],
 }
