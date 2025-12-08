@@ -50,6 +50,16 @@ export const Books: CollectionConfig = {
       admin: {
         description: 'Last opp et bilde som er minst 400x600 piksler for best kvalitet',
       },
-    }
-  ]
+    },
+    {
+      name: 'stock',
+      type: 'number',
+      defaultValue: 0,
+      label: 'Antall på lager',
+      admin: {
+        description: 'Oppdater når du mottar eller selger bøker',
+        position: "sidebar",
+      },
+    },
+  ],
 }
