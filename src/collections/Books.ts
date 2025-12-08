@@ -5,5 +5,27 @@ export const Books: CollectionConfig = {
   admin: {
     useAsTitle: 'title',
   },
-  fields: []
+  fields: [
+    {
+      name: 'title',
+      type: 'text',
+      required: true,
+      label: 'Boktittel',
+    },
+    {
+      name: 'description',
+      type: 'textarea',
+      label: 'Beskrivelse',
+    },
+    {
+      name: 'isbn',
+      type: 'text',
+      label: 'ISBN-nummer',
+    },
+    {
+      name: 'price',
+      type: 'number',
+      label: 'Pris',
+    }
+  ]
 }
