@@ -35,5 +35,12 @@ export const Books: CollectionConfig = {
       hasMany: true,
       label: 'Forfattere',
     },
+    {
+      name: 'genres',
+      type: 'relationship',
+      relationTo: 'genres',
+      hasMany: true,
+      label: 'Sjangere',
+    }
   ]
 }

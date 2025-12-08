@@ -227,6 +227,7 @@ export interface Book {
   isbn?: string | null;
   price?: number | null;
   author: (number | Author)[];
+  genres?: (number | Genre)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -389,6 +390,7 @@ export interface BooksSelect<T extends boolean = true> {
   isbn?: T;
   price?: T;
   author?: T;
+  genres?: T;
   updatedAt?: T;
   createdAt?: T;
 }
