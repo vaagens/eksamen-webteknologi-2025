@@ -26,6 +26,14 @@ export const Books: CollectionConfig = {
       name: 'price',
       type: 'number',
       label: 'Pris',
-    }
+    },
+    {
+      name: 'author',
+      type: 'relationship',
+      relationTo: 'authors',
+      required: true,
+      hasMany: true,
+      label: 'Forfattere',
+    },
   ]
 }
