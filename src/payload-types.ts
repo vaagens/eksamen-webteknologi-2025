@@ -173,6 +173,24 @@ export interface Author {
    */
   slug: string;
   image?: (number | null) | Media;
+  /**
+   * Skriv en kort biografi av forfatteren som vises på nettsiden
+   */
+  bio?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -302,6 +320,7 @@ export interface AuthorsSelect<T extends boolean = true> {
   name?: T;
   slug?: T;
   image?: T;
+  bio?: T;
   updatedAt?: T;
   createdAt?: T;
 }
