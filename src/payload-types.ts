@@ -70,6 +70,7 @@ export interface Config {
     users: User;
     media: Media;
     authors: Author;
+    genres: Genre;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -80,6 +81,7 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     authors: AuthorsSelect<false> | AuthorsSelect<true>;
+    genres: GenresSelect<false> | GenresSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -196,6 +198,24 @@ export interface Author {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "genres".
+ */
+export interface Genre {
+  id: number;
+  name?: string | null;
+  /**
+   * Brukes i URL, feks "fantasy"
+   */
+  slug: string;
+  /**
+   * Hva kjennetegner denne sjangeren?
+   */
+  description?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -229,6 +249,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'authors';
         value: number | Author;
+      } | null)
+    | ({
+        relationTo: 'genres';
+        value: number | Genre;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -321,6 +345,17 @@ export interface AuthorsSelect<T extends boolean = true> {
   slug?: T;
   image?: T;
   bio?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "genres_select".
+ */
+export interface GenresSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  description?: T;
   updatedAt?: T;
   createdAt?: T;
 }
