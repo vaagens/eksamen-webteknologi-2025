@@ -41,6 +41,15 @@ export const Books: CollectionConfig = {
       relationTo: 'genres',
       hasMany: true,
       label: 'Sjangere',
+    },
+    {
+      name: 'coverImage',
+      type: 'upload',
+      relationTo: 'media',
+      label: 'Bilde av bok',
+      admin: {
+        description: 'Last opp et bilde som er minst 400x600 piksler for best kvalitet',
+      },
     }
   ]
 }

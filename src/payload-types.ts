@@ -147,6 +147,8 @@ export interface User {
   password?: string | null;
 }
 /**
+ * Last opp bilder som er minst 400x600 piksler for best kvalitet
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
  */
@@ -164,6 +166,24 @@ export interface Media {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
+  sizes?: {
+    thumbnail?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    card?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+  };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -228,6 +248,10 @@ export interface Book {
   price?: number | null;
   author: (number | Author)[];
   genres?: (number | Genre)[] | null;
+  /**
+   * Last opp et bilde som er minst 400x600 piksler for best kvalitet
+   */
+  coverImage?: (number | null) | Media;
   updatedAt: string;
   createdAt: string;
 }
@@ -356,6 +380,30 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+  sizes?:
+    | T
+    | {
+        thumbnail?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        card?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+      };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -391,6 +439,7 @@ export interface BooksSelect<T extends boolean = true> {
   price?: T;
   author?: T;
   genres?: T;
+  coverImage?: T;
   updatedAt?: T;
   createdAt?: T;
 }
