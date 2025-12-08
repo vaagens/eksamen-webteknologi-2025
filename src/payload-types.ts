@@ -71,6 +71,7 @@ export interface Config {
     media: Media;
     authors: Author;
     genres: Genre;
+    books: Book;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -82,6 +83,7 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     authors: AuthorsSelect<false> | AuthorsSelect<true>;
     genres: GenresSelect<false> | GenresSelect<true>;
+    books: BooksSelect<false> | BooksSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -216,6 +218,19 @@ export interface Genre {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "books".
+ */
+export interface Book {
+  id: number;
+  title: string;
+  description?: string | null;
+  isbn?: string | null;
+  price?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -253,6 +268,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'genres';
         value: number | Genre;
+      } | null)
+    | ({
+        relationTo: 'books';
+        value: number | Book;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -356,6 +375,18 @@ export interface GenresSelect<T extends boolean = true> {
   name?: T;
   slug?: T;
   description?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "books_select".
+ */
+export interface BooksSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  isbn?: T;
+  price?: T;
   updatedAt?: T;
   createdAt?: T;
 }
