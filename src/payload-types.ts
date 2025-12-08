@@ -252,6 +252,10 @@ export interface Book {
    * Last opp et bilde som er minst 400x600 piksler for best kvalitet
    */
   coverImage?: (number | null) | Media;
+  /**
+   * Oppdater når du mottar eller selger bøker
+   */
+  stock?: number | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -440,6 +444,7 @@ export interface BooksSelect<T extends boolean = true> {
   author?: T;
   genres?: T;
   coverImage?: T;
+  stock?: T;
   updatedAt?: T;
   createdAt?: T;
 }
