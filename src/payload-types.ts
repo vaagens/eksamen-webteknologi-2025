@@ -260,6 +260,21 @@ export interface Book {
    * Oppdater når du mottar eller selger bøker
    */
   stock?: number | null;
+  ageGroup?: (number | null) | AgeGroup;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ageGroup".
+ */
+export interface AgeGroup {
+  id: number;
+  /**
+   * Må være unik. Sjekk eksisterende aldersgrupper før du lager en ny
+   */
+  ageGroup: string;
+  description?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -285,17 +300,6 @@ export interface Order {
    */
   totalPrice: number;
   status: 'pending' | 'completed' | 'cancelled';
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ageGroup".
- */
-export interface AgeGroup {
-  id: number;
-  ageGroup: string;
-  description?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -493,6 +497,7 @@ export interface BooksSelect<T extends boolean = true> {
   genres?: T;
   coverImage?: T;
   stock?: T;
+  ageGroup?: T;
   updatedAt?: T;
   createdAt?: T;
 }
