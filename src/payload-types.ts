@@ -73,6 +73,7 @@ export interface Config {
     genres: Genre;
     books: Book;
     orders: Order;
+    ageGroup: AgeGroup;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -86,6 +87,7 @@ export interface Config {
     genres: GenresSelect<false> | GenresSelect<true>;
     books: BooksSelect<false> | BooksSelect<true>;
     orders: OrdersSelect<false> | OrdersSelect<true>;
+    ageGroup: AgeGroupSelect<false> | AgeGroupSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -288,6 +290,17 @@ export interface Order {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ageGroup".
+ */
+export interface AgeGroup {
+  id: number;
+  ageGroup: string;
+  description?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -333,6 +346,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'orders';
         value: number | Order;
+      } | null)
+    | ({
+        relationTo: 'ageGroup';
+        value: number | AgeGroup;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -496,6 +513,16 @@ export interface OrdersSelect<T extends boolean = true> {
       };
   totalPrice?: T;
   status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ageGroup_select".
+ */
+export interface AgeGroupSelect<T extends boolean = true> {
+  ageGroup?: T;
+  description?: T;
   updatedAt?: T;
   createdAt?: T;
 }
