@@ -69,6 +69,11 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
+    authors: Author;
+    genres: Genre;
+    books: Book;
+    orders: Order;
+    ageGroup: AgeGroup;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -78,6 +83,11 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    authors: AuthorsSelect<false> | AuthorsSelect<true>;
+    genres: GenresSelect<false> | GenresSelect<true>;
+    books: BooksSelect<false> | BooksSelect<true>;
+    orders: OrdersSelect<false> | OrdersSelect<true>;
+    ageGroup: AgeGroupSelect<false> | AgeGroupSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -141,6 +151,8 @@ export interface User {
   password?: string | null;
 }
 /**
+ * Last opp bilder som er minst 400x600 piksler for best kvalitet
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
  */
@@ -158,6 +170,138 @@ export interface Media {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
+  sizes?: {
+    thumbnail?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    card?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "authors".
+ */
+export interface Author {
+  id: number;
+  name: string;
+  /**
+   * Brukes i URL, feks "jo-nesbo"
+   */
+  slug: string;
+  image?: (number | null) | Media;
+  /**
+   * Skriv en kort biografi av forfatteren som vises på nettsiden
+   */
+  bio?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "genres".
+ */
+export interface Genre {
+  id: number;
+  name?: string | null;
+  /**
+   * Brukes i URL, feks "fantasy"
+   */
+  slug: string;
+  /**
+   * Hva kjennetegner denne sjangeren?
+   */
+  description?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "books".
+ */
+export interface Book {
+  id: number;
+  title: string;
+  description?: string | null;
+  isbn?: string | null;
+  price?: number | null;
+  author: (number | Author)[];
+  genres?: (number | Genre)[] | null;
+  /**
+   * Last opp et bilde som er minst 400x600 piksler for best kvalitet
+   */
+  coverImage?: (number | null) | Media;
+  /**
+   * Oppdater når du mottar eller selger bøker
+   */
+  stock?: number | null;
+  ageGroup?: (number | null) | AgeGroup;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ageGroup".
+ */
+export interface AgeGroup {
+  id: number;
+  /**
+   * Må være unik. Sjekk eksisterende aldersgrupper før du lager en ny
+   */
+  ageGroup: string;
+  description?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "orders".
+ */
+export interface Order {
+  id: number;
+  customerName: string;
+  phone: string;
+  items: {
+    book: number | Book;
+    quantity: number;
+    /**
+     * Prisen som gjaldt da bestillingen ble lagt
+     */
+    priceAtOrder: number;
+    id?: string | null;
+  }[];
+  /**
+   * Sum av alle bøker i bestillingen
+   */
+  totalPrice: number;
+  status: 'pending' | 'completed' | 'cancelled';
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -190,6 +334,26 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'authors';
+        value: number | Author;
+      } | null)
+    | ({
+        relationTo: 'genres';
+        value: number | Genre;
+      } | null)
+    | ({
+        relationTo: 'books';
+        value: number | Book;
+      } | null)
+    | ({
+        relationTo: 'orders';
+        value: number | Order;
+      } | null)
+    | ({
+        relationTo: 'ageGroup';
+        value: number | AgeGroup;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -272,6 +436,100 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+  sizes?:
+    | T
+    | {
+        thumbnail?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        card?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+      };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "authors_select".
+ */
+export interface AuthorsSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  image?: T;
+  bio?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "genres_select".
+ */
+export interface GenresSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  description?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "books_select".
+ */
+export interface BooksSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  isbn?: T;
+  price?: T;
+  author?: T;
+  genres?: T;
+  coverImage?: T;
+  stock?: T;
+  ageGroup?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "orders_select".
+ */
+export interface OrdersSelect<T extends boolean = true> {
+  customerName?: T;
+  phone?: T;
+  items?:
+    | T
+    | {
+        book?: T;
+        quantity?: T;
+        priceAtOrder?: T;
+        id?: T;
+      };
+  totalPrice?: T;
+  status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ageGroup_select".
+ */
+export interface AgeGroupSelect<T extends boolean = true> {
+  ageGroup?: T;
+  description?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
