@@ -72,6 +72,7 @@ export interface Config {
     authors: Author;
     genres: Genre;
     books: Book;
+    orders: Order;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -84,6 +85,7 @@ export interface Config {
     authors: AuthorsSelect<false> | AuthorsSelect<true>;
     genres: GenresSelect<false> | GenresSelect<true>;
     books: BooksSelect<false> | BooksSelect<true>;
+    orders: OrdersSelect<false> | OrdersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -261,6 +263,31 @@ export interface Book {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "orders".
+ */
+export interface Order {
+  id: number;
+  customerName: string;
+  phone: string;
+  items: {
+    book: number | Book;
+    quantity: number;
+    /**
+     * Prisen som gjaldt da bestillingen ble lagt
+     */
+    priceAtOrder: number;
+    id?: string | null;
+  }[];
+  /**
+   * Sum av alle bøker i bestillingen
+   */
+  totalPrice: number;
+  status: 'pending' | 'completed' | 'cancelled';
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -302,6 +329,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'books';
         value: number | Book;
+      } | null)
+    | ({
+        relationTo: 'orders';
+        value: number | Order;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -445,6 +476,26 @@ export interface BooksSelect<T extends boolean = true> {
   genres?: T;
   coverImage?: T;
   stock?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "orders_select".
+ */
+export interface OrdersSelect<T extends boolean = true> {
+  customerName?: T;
+  phone?: T;
+  items?:
+    | T
+    | {
+        book?: T;
+        quantity?: T;
+        priceAtOrder?: T;
+        id?: T;
+      };
+  totalPrice?: T;
+  status?: T;
   updatedAt?: T;
   createdAt?: T;
 }
