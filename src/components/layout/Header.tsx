@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
+import { ShoppingCart } from 'lucide-react'
 
 export default function Header() {
   return (
@@ -10,6 +11,13 @@ export default function Header() {
           <span className="text-xl font-bold">Bookdragons</span>
         </Link>
 
+        <div>
+          <Link href="/authors">Forfattere</Link>
+        </div>
+
+        <button>
+          <ShoppingCart size={24} />
+        </button>
       </nav>
     </header>
   )
