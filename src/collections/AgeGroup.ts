@@ -11,6 +11,10 @@ export const AgeGroup: CollectionConfig = {
       type: 'text',
       required: true,
       label: 'Aldersgruppe (År)',
+      unique: true,
+      admin:{
+        description: 'Må være unik. Sjekk eksisterende aldersgrupper før du lager en ny',
+      }
     },
     {
       name: 'description',
