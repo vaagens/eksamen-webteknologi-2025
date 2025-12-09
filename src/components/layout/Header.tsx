@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { ShoppingCart, Settings, LayoutDashboard, Database, PanelsTopLeftIcon } from 'lucide-react'
+import { ShoppingCart, PanelsTopLeftIcon } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 
 export default function Header() {
@@ -10,23 +10,23 @@ export default function Header() {
 
   return (
     <header className="border-b sticky top-0 bg-amber-50 z-50">
-      <nav className="max-w-7xl mx-auto px-6 py-6 flex items-center justify-between">
+      <nav className="px-6 py-6 flex items-center justify-between">
         <div className="flex items-center gap-6">
           <Link
             href="/admin"
-            className="cursor-pointer flex flex-col items-center text-sm font-semibold hover:scale-110 transition-transform"
+            className="flex flex-col items-center text-sm font-semibold hover:scale-110 transition-transform"
           >
             <PanelsTopLeftIcon size={24} />
             <span>Admin</span>
           </Link>
 
-          <Link href="/" className="flex items-center gap-2 pb-1">
+          <Link href="/" className="flex items-center gap-2">
             <Image src="/images/logo.svg" alt="Bookdragons Logo" width={40} height={40} />
-            <span className="text-xl font-bold">Bookdragons</span>
+            <span className="text-xl font-bold hidden md:inline">Bookdragons</span>
           </Link>
         </div>
 
-        <div className="flex items-center gap-10">
+        <div className="flex items-center gap-5 md:gap-10">
           <Link
             href="/books"
             className={
