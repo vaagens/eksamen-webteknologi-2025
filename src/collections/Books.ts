@@ -59,8 +59,15 @@ export const Books: CollectionConfig = {
       label: 'Antall på lager',
       admin: {
         description: 'Oppdater når du mottar eller selger bøker',
-        position: "sidebar",
+        position: 'sidebar',
       },
+    },
+    {
+      name: 'ageGroup',
+      type: 'relationship',
+      relationTo: 'ageGroup',
+      label: 'Aldersgruppe',
+      hasMany: false,
     },
   ],
 }
