@@ -1,4 +1,4 @@
-import { Book } from '@/payload-types'
+import { Book, AgeGroup } from '@/payload-types'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -7,6 +7,9 @@ interface BookCardProps {
 }
 
 export default function BookCard({ book }: BookCardProps) {
+
+  const age = book.ageGroup as AgeGroup
+
   return (
     <Link
       href={`/books/${book.id}`}
@@ -25,8 +28,12 @@ export default function BookCard({ book }: BookCardProps) {
             <div className="flex items-center justify-center h-full text-gray-400">Ingen bilde</div>
           )}
         </div>
-        <h3 className="font-bold text-lg">{book.title}</h3>
+        <h1 className="font-bold text-lg">{book.title}</h1>
+        <p>Aldersgruppe: {age?.ageGroup || 'Ukjent aldersgruppe'}</p>
         <p>Pris: {book.price} kr</p>
+
+
+
       </article>
     </Link>
   )
