@@ -31,7 +31,7 @@ export default function Header() {
             <Link
               href="/books"
               className={
-                pathname === '/books' || pathname.startsWith('/books')
+                pathname === '/books'
                   ? 'font-bold border-b-2 border-black pb-1 pt-2'
                   : 'font-bold hover:scale-105 transition-transform border-b-2 border-transparent pb-1 pt-2'
               }
@@ -41,7 +41,7 @@ export default function Header() {
             <Link
               href="/authors"
               className={
-                pathname === '/authors' || pathname.startsWith('/authors/')
+                pathname === '/authors'
                   ? 'font-bold border-b-2 border-black pb-1 pt-2'
                   : 'font-bold hover:scale-105 transition-transform border-b-2 border-transparent pb-1 pt-2'
               }

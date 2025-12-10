@@ -2,6 +2,8 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { AgeGroup, Author, Genre, Media } from '@/payload-types'
 import Image from 'next/image'
+import { BackButton } from '@/components/BackButton'
+import { AddToCartButton } from '@/components/AddToCartButton'
 
 export default async function BookPage({ params }: { params: { id: string } }) {
   const payload = await getPayload({ config })
@@ -72,7 +74,8 @@ export default async function BookPage({ params }: { params: { id: string } }) {
         </section>
 
         <section className="flex items-baseline gap-6">
-          kanpper her
+          <BackButton/>
+          <AddToCartButton/>
         </section>
 
       </article>
@@ -81,8 +84,8 @@ export default async function BookPage({ params }: { params: { id: string } }) {
     return (
       <div className="p-10 text-center">
         <h1 className="text-2xl font-semibold">Fant ikke boken</h1>
-        <p className="text-gray-500 mt-2">Det finnes ingen bok med denne adressen.</p>
-        <p>TILBAKE KNAPP HER</p>
+        <p className=" m-2">Det finnes ingen bok med denne adressen.</p>
+        <BackButton/>
       </div>
 
     )
