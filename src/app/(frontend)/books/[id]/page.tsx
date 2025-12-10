@@ -5,13 +5,14 @@ import Image from 'next/image'
 import { BackButton } from '@/components/BackButton'
 import { AddToCartButton } from '@/components/AddToCartButton'
 
-export default async function BookPage({ params }: { params: { id: string } }) {
+export default async function BookPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
   const payload = await getPayload({ config })
 
   try {
     const book = await payload.findByID({
       collection: 'books',
-      id: params.id,
+      id,
       depth: 2,
     })
 
@@ -37,6 +38,7 @@ export default async function BookPage({ params }: { params: { id: string } }) {
             src={cover?.sizes?.card?.url || ''}
             alt={book.title}
             fill
+            sizes="(max-width: 768px) 100vw, 200px"
             className="object-cover rounded shadow-lg"
           />
         </section>
