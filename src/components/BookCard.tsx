@@ -31,6 +31,7 @@ export default function BookCard({ book }: BookCardProps) {
         <h1 className="font-bold text-lg">{book.title}</h1>
         <p>Aldersgruppe: {age?.ageGroup || 'Ukjent aldersgruppe'}</p>
         <p>Pris: {book.price} kr</p>
+        <p>Lagerstatus: {book.stock}</p>
 
 
 
