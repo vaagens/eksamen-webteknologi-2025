@@ -10,12 +10,13 @@ export default async function HomePage() {
 
     const { docs: books} = await payload.find({
       collection: 'books',
+      limit: 0,
     })
     return (
-      <div>
-        <section>Filtrering TODO</section>
+      <div className="max-w-7xl mx-auto px-6 py-8">
+        <section>Filtrering TO-DO</section>
 
-        <section>
+        <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {books.map(book => (
             <BookCard key={book.id} book={book} />
           ))}
