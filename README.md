@@ -1,0 +1,1 @@
+slugfield https://github.com/payloadcms/payload/commit/b09ae6772f4b82dcf56b7e5253481d8fd7a2ceda

@@ -1,4 +1,4 @@
-import { CollectionConfig } from 'payload'
+import { CollectionConfig, slugField } from 'payload'
 
 export const Books: CollectionConfig = {
   slug: 'books',
@@ -69,5 +69,8 @@ export const Books: CollectionConfig = {
       label: 'Aldersgruppe',
       hasMany: false,
     },
+    slugField({
+      useAsSlug: 'title',
+    }),
   ],
 }

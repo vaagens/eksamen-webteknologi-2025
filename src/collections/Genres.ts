@@ -12,16 +12,6 @@ export const Genres: CollectionConfig = {
       label: 'Sjangerens navn',
     },
     {
-      name: 'slug',
-      type: 'text',
-      required: true,
-      unique: true,
-      label: 'URL-vennlig navn',
-      admin: {
-        description: 'Brukes i URL, feks "fantasy"',
-      },
-    },
-    {
       name: 'description',
       type: 'textarea',
       label: 'Beskrivelse av sjangeren',
