@@ -6,7 +6,7 @@ export function BackButton() {
   return (
     <button
       onClick={() => router.back()}
-      className="px-4 py-2 rounded border drop-shadow-lg bg-amber-50 hover:bg-gray-200 cursor-pointer font-bold"
+      className="px-4 py-2 rounded border drop-shadow-lg bg-amber-50 hover:bg-gray-200 cursor-pointer font-bold transition-colors"
     >
       Tilbake
     </button>

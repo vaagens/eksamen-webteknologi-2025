@@ -5,10 +5,12 @@ import Image from 'next/image'
 import { ShoppingCart, PanelsTopLeftIcon, Menu, X } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
+import Cart from '@/components/Cart'
 
 export default function Header() {
   const pathname = usePathname()
   const [isMenuOpen, setMenuOpen] = useState(false)
+  const [isCartOpen, setCartOpen] = useState(false)
 
   return (
     <header className="border-b sticky top-0 bg-amber-50 z-50">
@@ -57,9 +59,19 @@ export default function Header() {
             >
               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
-            <button className="cursor-pointer hover:scale-115 transition-transform">
+            <button
+              onClick={() => setCartOpen(true)}
+              className="cursor-pointer hover:scale-115 transition-transform"
+            >
               <ShoppingCart size={24} />
             </button>
+
+            <Cart
+              isOpen={isCartOpen}
+              onClose={() => {
+                setCartOpen(false)
+              }}
+            />
           </div>
         </div>
       </nav>

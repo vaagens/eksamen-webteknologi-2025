@@ -15,30 +15,30 @@ export default function BookCard({ book }: BookCardProps) {
   const genres = book.genres as Genre[]
 
   return (
-    <article className="border rounded-lg p-4 flex flex-col h-full shadow-lg">
+    <article className="flex h-full flex-col rounded-lg border p-4 shadow-lg">
       <Link href={`/books/${book.slug}`}>
-        <div className="aspect-[3/4] relative mb-4 bg-gray-100  rounded-lg">
+        <div className="relative mb-4 aspect-[3/4] rounded-lg bg-gray-100">
           {book.coverImage && typeof book.coverImage !== 'number' && book.coverImage.sizes?.card ? (
             <Image
               src={book.coverImage.sizes.card.url || ''}
               alt={book.title}
               fill
               sizes="(max-width: 768px) 100vw, 200px"
-              className="object-cover rounded hover:scale-105 hover:shadow-lg transition-transform "
+              className="rounded object-cover transition-transform hover:scale-105 hover:shadow-lg"
             />
           ) : (
-            <div className="flex items-center justify-center h-full text-gray-400">Ingen bilde</div>
+            <div className="flex h-full items-center justify-center text-gray-400">Ingen bilde</div>
           )}
         </div>
 
         <header className="pb-3">
-          <h1 className="font-bold line-clamp-2 min-h-[3rem] hover:underline transition-transform">
+          <h1 className="line-clamp-2 min-h-[3rem] font-bold transition-transform hover:underline">
             {book.title}
           </h1>
         </header>
       </Link>
 
-      <section className="font-semibold pb-5 mt-auto">
+      <section className="mt-auto pb-5 font-semibold">
         {authors.map((author, index) => (
           <span key={author.slug}>
             <Link
@@ -56,7 +56,7 @@ export default function BookCard({ book }: BookCardProps) {
       <section className="mt-auto">
         <div className="flex items-baseline justify-between">
           <dt className="font-semibold">Sjanger:</dt>
-          <dd className="truncate max-w-[70%]">{genres.map((g) => g.name).join(', ')}</dd>
+          <dd className="max-w-[70%] truncate">{genres.map((g) => g.name).join(', ')}</dd>
         </div>
         <div className="flex items-baseline justify-between">
           <dt className="font-semibold">Aldersgruppe:</dt>

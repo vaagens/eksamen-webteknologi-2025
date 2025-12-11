@@ -89,7 +89,7 @@ export default async function BookPage({ params }: { params: Promise<{ slug: str
 
         <section className="flex items-baseline gap-6">
           <BackButton />
-          <AddToCartButton />
+          <AddToCartButton book={book}/>
         </section>
       </article>
     )
