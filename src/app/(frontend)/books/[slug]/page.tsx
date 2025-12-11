@@ -5,42 +5,54 @@ import Image from 'next/image'
 import { BackButton } from '@/components/BackButton'
 import { AddToCartButton } from '@/components/AddToCartButton'
 
-export default async function BookPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params
+export default async function BookPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
   const payload = await getPayload({ config })
 
   try {
-    const book = await payload.findByID({
+    const {docs: books} = await payload.find({
       collection: 'books',
-      id,
+      where: {
+        slug: {
+          equals: slug,
+        },
+      },
       depth: 2,
+      limit: 1,
     })
+
+    const book = books[0]
 
     const authors = book.author as Author[]
     const cover = book.coverImage as Media
     const genres = book.genres as Genre[]
-    const age = book.ageGroup as AgeGroup | null
+    const age = book.ageGroup as AgeGroup
 
     return (
       <article className="flex flex-col items-center gap-6 m-2">
-
         <header>
           <h1 className="text-3xl font-bold">{book.title}</h1>
         </header>
 
         <section className="flex items-baseline gap-3">
           <h2 className="text-xl font-bold">Forfatter:</h2>
-          <p>{authors.map((a) => a.name).join(', ')}</p>
+          <p>{authors.map((a) => a.name).join(', ') || 'Ukjent'} </p>
         </section>
 
         <section className="relative w-64 h-96">
-          <Image
-            src={cover?.sizes?.card?.url || ''}
-            alt={book.title}
-            fill
-            sizes="(max-width: 768px) 100vw, 200px"
-            className="object-cover rounded shadow-lg"
-          />
+          {cover?.sizes?.card?.url ? (
+            <Image
+              src={cover.sizes.card.url}
+              alt={book.title}
+              fill
+              sizes="(max-width: 768px) 100vw, 200px"
+              className="object-cover rounded shadow-lg"
+            />
+          ) : (
+            <div className="flex items-center justify-center w-64 h-96 bg-white rounded shadow-lg border border-gray-200">
+              <p className="text-gray-400">Ingen bilde</p>
+            </div>
+          )}
         </section>
 
         <section className="text-center max-w-prose">
@@ -52,11 +64,11 @@ export default async function BookPage({ params }: { params: Promise<{ id: strin
           <h2 className="text-xl font-bold">Detaljer:</h2>
           <div className="flex items-baseline gap-3">
             <dt className="font-semibold">Sjanger:</dt>
-            <dd>{genres.map((g) => g.name).join(', ')}</dd>
+            <dd>{genres.map((g) => g.name).join(', ') || 'Ukjent'}</dd>
           </div>
           <div className="flex items-baseline gap-3">
             <dt className="font-semibold">Aldersgruppe:</dt>
-            <dd>{age?.ageGroup || 'Ukjent aldersgruppe'}</dd>
+            <dd>{age?.ageGroup || 'Ukjent'}</dd>
           </div>
           <div className="flex items-baseline gap-3">
             <dt className="font-semibold">ISBN:</dt>
@@ -76,10 +88,9 @@ export default async function BookPage({ params }: { params: Promise<{ id: strin
         </section>
 
         <section className="flex items-baseline gap-6">
-          <BackButton/>
-          <AddToCartButton/>
+          <BackButton />
+          <AddToCartButton />
         </section>
-
       </article>
     )
   } catch (error) {
@@ -87,9 +98,8 @@ export default async function BookPage({ params }: { params: Promise<{ id: strin
       <div className="p-10 text-center">
         <h1 className="text-2xl font-semibold">Fant ikke boken</h1>
         <p className=" m-2">Det finnes ingen bok med denne adressen.</p>
-        <BackButton/>
+        <BackButton />
       </div>
-
     )
   }
 }

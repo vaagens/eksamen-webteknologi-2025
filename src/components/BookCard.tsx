@@ -16,7 +16,7 @@ export default function BookCard({ book }: BookCardProps) {
 
   return (
     <article className="border rounded-lg p-4 flex flex-col h-full shadow-lg">
-      <Link href={`/books/${book.id}`}>
+      <Link href={`/books/${book.slug}`}>
         <div className="aspect-[3/4] relative mb-4 bg-gray-100  rounded-lg">
           {book.coverImage && typeof book.coverImage !== 'number' && book.coverImage.sizes?.card ? (
             <Image
@@ -60,7 +60,7 @@ export default function BookCard({ book }: BookCardProps) {
         </div>
         <div className="flex items-baseline justify-between">
           <dt className="font-semibold">Aldersgruppe:</dt>
-          <dd>{age?.ageGroup || 'Ukjent aldersgruppe'}</dd>
+          <dd>{age?.ageGroup || 'Ukjent'}</dd>
         </div>
         <div className="flex items-baseline justify-between">
           <div className="flex items-baseline gap-1">
