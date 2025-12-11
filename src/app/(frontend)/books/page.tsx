@@ -12,6 +12,12 @@ export default async function HomePage() {
       collection: 'books',
       limit: 0,
     })
+
+    const {docs: genres} = await payload.find({
+      collection: 'genres',
+      limit: 0,
+    })
+
     return (
       <div className="max-w-7xl mx-auto px-6 py-8">
         <section>Filtrering TO-DO</section>
