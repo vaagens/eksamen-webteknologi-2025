@@ -21,12 +21,13 @@ export default function GenreFilter({ books, genres }: GenreFilterProps) {
 
   return (
     <div>
-      <div>
-        <label htmlFor="genre-select">
+      <div className="mb-6">
+        <label htmlFor="genre-select" className="block font-semibold mb-2">
           Filtrer etter sjanger:
         </label>
         <select
           id="genre-select"
+          className="border rounded px-4 py-2 bg-amber-50"
           value={selectedGenre}
           onChange={(e) => setSelectedGenre(e.target.value)}
         >
