@@ -1,8 +1,10 @@
 'use client'
+
 import { useCartStore } from '@/store/cartStore'
 import Image from 'next/image'
 import { Media } from '@/payload-types'
 import { X, LucideMinus, LucidePlus } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
 interface CartProps {
   isOpen: boolean
@@ -11,6 +13,7 @@ interface CartProps {
 
 export default function Cart({ isOpen, onClose }: CartProps) {
   const { items, removeItem, updateQuantity, clearCart, getTotalPrice } = useCartStore()
+  const router = useRouter()
 
   if (!isOpen) return null
 
@@ -104,7 +107,7 @@ export default function Cart({ isOpen, onClose }: CartProps) {
                 </button>
                 <button
                   onClick={() => {
-                    // TODO
+                    router.push('/checkout')
                   }}
                   className="flex-1 cursor-pointer rounded border border-black bg-green-600 px-4 py-2 font-bold text-white drop-shadow-lg transition-colors hover:bg-green-700"
                 >
