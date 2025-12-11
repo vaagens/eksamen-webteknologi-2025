@@ -75,7 +75,7 @@ export default function BookCard({ book }: BookCardProps) {
       </section>
 
       <footer className="flex justify-center pt-4">
-        <AddToCartButton />
+        <AddToCartButton book={book} />
       </footer>
     </article>
   )
