@@ -2,7 +2,6 @@ import React from 'react'
 import '../globals.css'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import BookCard from '@/components/BookCard'
 import GenreFilter from '@/components/GenreFilter'
 
 export default async function HomePage() {
