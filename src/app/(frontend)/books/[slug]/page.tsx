@@ -11,7 +11,7 @@ export default async function BookDetailPage({ params }: { params: Promise<{ slu
 
   try {
     const { docs: books } = await payload.find({
-      collection: 'books',
+      collection: 'authors',
       where: {
         slug: {
           equals: slug,
