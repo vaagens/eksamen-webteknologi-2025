@@ -1,4 +1,3 @@
-import React from 'react'
 import '../globals.css'
 import { getPayload } from 'payload'
 import config from '@payload-config'
@@ -19,7 +18,7 @@ export default async function BookPage() {
     })
 
     return (
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="mx-auto max-w-7xl px-6 py-8">
         <GenreFilter books={books} genres={genres} />
       </div>
     )
