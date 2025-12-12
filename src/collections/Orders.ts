@@ -5,6 +5,9 @@ export const Orders: CollectionConfig = {
   admin: {
     useAsTitle: 'customerName',
   },
+  access: {
+    create: () => true,
+    },
   fields: [
     {
       name: 'customerName',
