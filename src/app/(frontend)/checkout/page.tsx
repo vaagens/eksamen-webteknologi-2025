@@ -7,8 +7,9 @@ import Image from 'next/image'
 import { Media } from '@/payload-types'
 
 export default function CheckoutPage() {
-  const { items, getTotalPrice } = useCartStore()
+  const { items, getTotalPrice, clearCart } = useCartStore()
   const router = useRouter()
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const [formData, setFormData] = useState({
     customerName: '',
@@ -17,17 +18,56 @@ export default function CheckoutPage() {
 
   if (items.length === 0) {
     return (
-      <div className="container mx-auto max-w-4xl px-4 py-8">
+      <div className="container mx-auto max-w-4xl px-4 py-8 text-center">
         <h1 className="mb-4 text-2xl font-bold">Handlekurv</h1>
         <p className="mb-4 text-gray-600">Handlekurven din er tom.</p>
         <button
           onClick={() => router.push('/books')}
-          className="rounded bg-green-600 px-6 py-2 font-semibold text-white transition-colors hover:bg-green-700"
+          className="cursor-pointer rounded border bg-amber-50 px-4 py-2 font-bold drop-shadow-lg transition-colors hover:bg-gray-200"
         >
           Tilbake til butikken
         </button>
       </div>
     )
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+
+    setIsSubmitting(true)
+
+    try {
+      const response = await fetch('/api/orders', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          customerName: formData.customerName,
+          phone: formData.phone,
+          items: items.map((item) => ({
+            book: item.book.id,
+            quantity: item.quantity,
+            priceAtOrder: item.book.price ?? 0,
+          })),
+          totalPrice: getTotalPrice(),
+          status: 'pending',
+        }),
+      })
+
+      if (!response.ok) {
+        throw new Error('Noe gikk galt')
+      }
+
+      clearCart()
+      alert('Bestillingen er sendt! Vi kontakter deg når den er klar for henting.')
+      router.push('/')
+    } catch (error) {
+      console.error('Feil ved bestilling:', error)
+      alert('Noe gikk galt. Vennligst prøv igjen.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -84,7 +124,7 @@ export default function CheckoutPage() {
         <section className="rounded-lg border p-6 shadow-lg">
           <h2 className="mb-6 text-2xl font-bold">Dine opplysninger</h2>
 
-          <form className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label htmlFor="customerName" className="mb-2 block font-semibold">
                 Navn *
@@ -117,15 +157,18 @@ export default function CheckoutPage() {
 
             <div className="rounded-lg bg-amber-50 p-4">
               <p className="text-sm">
-                <strong>Viktig:</strong> Du får en melding når estillingen din er klar for henting i butikken. Du
-                betaler når du henter bøkene.
+                <strong>Viktig:</strong> Du får en melding når estillingen din er klar for henting i
+                butikken. Du betaler når du henter bøkene.
               </p>
             </div>
 
             <button
               type="submit"
-              className="w-full rounded border border-black bg-green-600 px-6 py-3 font-bold text-white transition-colors hover:bg-green-700 disabled:bg-gray-400"
-            >Send Bestillig</button>
+              disabled={isSubmitting}
+              className="w-full cursor-pointer rounded border border-black bg-green-600 px-6 py-3 font-bold text-white transition-colors hover:bg-green-700 disabled:bg-gray-400"
+            >
+              {isSubmitting ? 'Sender...' : 'Send bestilling'}
+            </button>
           </form>
         </section>
       </article>

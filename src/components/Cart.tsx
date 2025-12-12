@@ -107,6 +107,7 @@ export default function Cart({ isOpen, onClose }: CartProps) {
                 </button>
                 <button
                   onClick={() => {
+                    onClose()
                     router.push('/checkout')
                   }}
                   className="flex-1 cursor-pointer rounded border border-black bg-green-600 px-4 py-2 font-bold text-white drop-shadow-lg transition-colors hover:bg-green-700"
