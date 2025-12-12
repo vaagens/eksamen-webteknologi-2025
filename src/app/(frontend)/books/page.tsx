@@ -4,7 +4,7 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import GenreFilter from '@/components/GenreFilter'
 
-export default async function HomePage() {
+export default async function BookPage() {
   try {
     const payload = await getPayload({ config })
 

@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { BackButton } from '@/components/BackButton'
 import { AddToCartButton } from '@/components/AddToCartButton'
 
-export default async function BookPage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function BookDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
   const payload = await getPayload({ config })
 
