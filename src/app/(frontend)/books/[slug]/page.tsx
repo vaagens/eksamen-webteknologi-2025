@@ -5,12 +5,12 @@ import Image from 'next/image'
 import { BackButton } from '@/components/BackButton'
 import { AddToCartButton } from '@/components/AddToCartButton'
 
-export default async function BookPage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function BookDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
   const payload = await getPayload({ config })
 
   try {
-    const {docs: books} = await payload.find({
+    const { docs: books } = await payload.find({
       collection: 'books',
       where: {
         slug: {
@@ -29,7 +29,7 @@ export default async function BookPage({ params }: { params: Promise<{ slug: str
     const age = book.ageGroup as AgeGroup
 
     return (
-      <article className="flex flex-col items-center gap-6 m-2">
+      <article className="m-2 flex flex-col items-center gap-6">
         <header>
           <h1 className="text-3xl font-bold">{book.title}</h1>
         </header>
@@ -39,23 +39,23 @@ export default async function BookPage({ params }: { params: Promise<{ slug: str
           <p>{authors.map((a) => a.name).join(', ') || 'Ukjent'} </p>
         </section>
 
-        <section className="relative w-64 h-96">
+        <section className="relative h-96 w-64">
           {cover?.sizes?.card?.url ? (
             <Image
               src={cover.sizes.card.url}
               alt={book.title}
               fill
               sizes="(max-width: 768px) 100vw, 200px"
-              className="object-cover rounded shadow-lg"
+              className="rounded object-cover shadow-lg"
             />
           ) : (
-            <div className="flex items-center justify-center w-64 h-96 bg-white rounded shadow-lg border border-gray-200">
+            <div className="flex h-96 w-64 items-center justify-center rounded border border-gray-200 bg-white shadow-lg">
               <p className="text-gray-400">Ingen bilde</p>
             </div>
           )}
         </section>
 
-        <section className="text-center max-w-prose">
+        <section className="max-w-prose text-center">
           <h2 className="text-xl font-bold">Beskrivelse:</h2>
           <p>{book.description}</p>
         </section>
@@ -89,7 +89,7 @@ export default async function BookPage({ params }: { params: Promise<{ slug: str
 
         <section className="flex items-baseline gap-6">
           <BackButton />
-          <AddToCartButton book={book}/>
+          <AddToCartButton book={book} />
         </section>
       </article>
     )
@@ -97,7 +97,7 @@ export default async function BookPage({ params }: { params: Promise<{ slug: str
     return (
       <div className="p-10 text-center">
         <h1 className="text-2xl font-semibold">Fant ikke boken</h1>
-        <p className=" m-2">Det finnes ingen bok med denne adressen.</p>
+        <p className="m-2">Det finnes ingen bok med denne adressen.</p>
         <BackButton />
       </div>
     )
