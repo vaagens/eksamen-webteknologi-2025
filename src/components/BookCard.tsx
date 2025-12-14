@@ -1,5 +1,3 @@
-'use client'
-
 import { Book, AgeGroup, Genre, Author } from '@/payload-types'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -43,7 +41,6 @@ export default function BookCard({ book }: BookCardProps) {
           <span key={author.slug}>
             <Link
               href={`/authors/${author.slug}`}
-              onClick={(e) => e.stopPropagation()}
               className="hover:underline"
             >
               {author.name}

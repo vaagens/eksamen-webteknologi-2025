@@ -8,7 +8,7 @@ export default async function BookPage() {
     const payload = await getPayload({ config })
 
     const { docs: books } = await payload.find({
-      collection: 'authors',
+      collection: 'books',
       limit: 0,
     })
 

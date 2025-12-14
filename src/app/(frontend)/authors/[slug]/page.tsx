@@ -1,10 +1,10 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { AgeGroup, Author, Genre, Media } from '@/payload-types'
+import { Media } from '@/payload-types'
 import Image from 'next/image'
 import { BackButton } from '@/components/BackButton'
-import { AddToCartButton } from '@/components/AddToCartButton'
 import { RichText } from '@payloadcms/richtext-lexical/react'
+import BookCard from '@/components/BookCard'
 
 export default async function AuthorDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
@@ -18,27 +18,33 @@ export default async function AuthorDetailPage({ params }: { params: Promise<{ s
           equals: slug,
         },
       },
-      depth: 2,
       limit: 1,
     })
 
     const author = authors[0]
 
+    const { docs: authorBooks } = await payload.find({
+      collection: 'books',
+      where: {
+        author: {
+          equals: author.id,
+        },
+      },
+    })
 
     const image = author.image as Media
 
-
     return (
-      <article className="grid gap-8 md:grid-cols-2">
-        <section>
+      <article className="m-2 grid gap-8 md:grid-cols-2">
+        <section className="m-2 flex flex-col items-center">
           <header>
-            <h1 className="text-3xl font-bold">{author.name}</h1>
+            <h1 className="mb-8 text-3xl font-bold">{author.name}</h1>
           </header>
 
-          <div className="relative h-96 w-64">
-            {image?.sizes?.card?.url ? (
+          <div className="relative w-80 aspect-[2/3] mx-auto">
+            {image?.url ? (
               <Image
-                src={image.sizes.card.url}
+                src={image.url}
                 alt={author.name}
                 fill
                 sizes="(max-width: 768px) 100vw, 200px"
@@ -58,10 +64,18 @@ export default async function AuthorDetailPage({ params }: { params: Promise<{ s
             </div>
           </div>
         </section>
-        <section>
-
+        <section className="m-2 flex flex-col text-center">
+          <h2 className="mb-8 text-2xl font-bold">Bøker av {author.name}</h2>
+          {authorBooks.length > 0 ? (
+            <div className="grid origin-top scale-70 grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-3">
+              {authorBooks.map((book) => (
+                <BookCard key={book.id} book={book} />
+              ))}
+            </div>
+          ) : (
+            <p className="text-gray-600">Ingen bøker funnet for denne forfatteren.</p>
+          )}
         </section>
-
       </article>
     )
   } catch (error) {
