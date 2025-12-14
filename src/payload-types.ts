@@ -289,7 +289,7 @@ export interface Order {
   customerName: string;
   phone: string;
   items: {
-    book: number | Book;
+    book: number | Author;
     quantity: number;
     /**
      * Prisen som gjaldt da bestillingen ble lagt

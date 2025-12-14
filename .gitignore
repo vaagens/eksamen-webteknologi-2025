@@ -50,3 +50,7 @@ node_modules/
 /playwright/.cache/
 
 /scripts
+
+.vscode
+.next
+.idea

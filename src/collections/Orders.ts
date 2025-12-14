@@ -30,7 +30,7 @@ export const Orders: CollectionConfig = {
         {
           name: 'book',
           type: 'relationship',
-          relationTo: 'books',
+          relationTo: 'authors',
           required: true,
           label: 'Bok',
         },

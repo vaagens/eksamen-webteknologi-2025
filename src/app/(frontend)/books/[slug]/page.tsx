@@ -4,6 +4,7 @@ import { AgeGroup, Author, Genre, Media } from '@/payload-types'
 import Image from 'next/image'
 import { BackButton } from '@/components/BackButton'
 import { AddToCartButton } from '@/components/AddToCartButton'
+import Link from 'next/link'
 
 export default async function BookDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
@@ -36,7 +37,17 @@ export default async function BookDetailPage({ params }: { params: Promise<{ slu
 
         <section className="flex items-baseline gap-3">
           <h2 className="text-xl font-bold">Forfatter:</h2>
-          <p>{authors.map((a) => a.name).join(', ') || 'Ukjent'} </p>
+          {authors.map((author, index) => (
+            <span key={author.slug}>
+            <Link
+              href={`/authors/${author.slug}`}
+              className="hover:underline"
+            >
+              {author.name}
+            </Link>
+              {index < authors.length - 1 && ', '}
+          </span>
+          ))}
         </section>
 
         <section className="relative h-96 w-64">

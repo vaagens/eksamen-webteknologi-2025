@@ -11,7 +11,7 @@ interface AuthorCardProps {
 export default function AuthorCard({ author }: AuthorCardProps) {
   return (
     <Link
-      href={`/author/${author.slug}`}
+      href={`/authors/${author.slug}`}
       className="transition-transform hover:scale-105 hover:shadow-lg"
     >
       <article className="flex h-full flex-col rounded-lg border p-4 shadow-lg">
