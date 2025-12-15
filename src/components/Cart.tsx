@@ -28,6 +28,7 @@ export default function Cart({ isOpen, onClose }: CartProps) {
           <button
             onClick={onClose}
             className="cursor-pointer rounded-full p-1 transition-colors hover:bg-gray-100"
+            aria-label="Lukk handlekurv"
           >
             <X size={24} />
           </button>
@@ -66,6 +67,7 @@ export default function Cart({ isOpen, onClose }: CartProps) {
                         <button
                           onClick={() => updateQuantity(item.book.id, item.quantity - 1)}
                           className="cursor-pointer rounded border px-2 py-1 transition-colors hover:bg-gray-200"
+                          aria-label="Reduser antall"
                         >
                           <LucideMinus size={12} />
                         </button>
@@ -75,6 +77,7 @@ export default function Cart({ isOpen, onClose }: CartProps) {
                         <button
                           onClick={() => updateQuantity(item.book.id, item.quantity + 1)}
                           className="cursor-pointer rounded border px-2 py-1 transition-colors hover:bg-gray-200"
+                          aria-label="Øk antall"
                         >
                           <LucidePlus size={12} />
                         </button>
@@ -82,6 +85,7 @@ export default function Cart({ isOpen, onClose }: CartProps) {
                         <button
                           onClick={() => removeItem(item.book.id)}
                           className="ml-auto cursor-pointer text-red-600 hover:text-red-800"
+                          aria-label={`Fjern ${item.book.title} fra handlekurv`}
                         >
                           Fjern
                         </button>

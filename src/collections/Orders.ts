@@ -7,7 +7,7 @@ export const Orders: CollectionConfig = {
   },
   access: {
     create: () => true,
-    },
+  },
   fields: [
     {
       name: 'customerName',

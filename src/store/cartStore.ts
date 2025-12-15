@@ -57,7 +57,8 @@ export const useCartStore = create<CartStore>()(
         } else {
           set({
             items: get().items.map((item) =>
-              item.book.id === bookId ? { ...item, quantity: Math.min(quantity, item.book.stock ?? 0) }
+              item.book.id === bookId
+                ? { ...item, quantity: Math.min(quantity, item.book.stock ?? 0) }
                 : item,
             ),
           })

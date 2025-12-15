@@ -24,14 +24,14 @@ export default function GenreFilter({ books, genres }: GenreFilterProps) {
   return (
     <div>
       <div className="mb-6">
-        <label htmlFor="genre-select" className="block font-semibold mb-2">
+        <label htmlFor="genre-select" className="mb-2 block font-semibold">
           Filtrer etter sjanger:
         </label>
 
         <div className="flex items-center gap-4">
           <select
             id="genre-select"
-            className="border rounded px-4 py-2 bg-amber-50"
+            className="rounded border bg-amber-50 px-4 py-2"
             value={selectedGenre}
             onChange={(e) => setSelectedGenre(e.target.value)}
           >
@@ -44,12 +44,14 @@ export default function GenreFilter({ books, genres }: GenreFilterProps) {
           </select>
 
           {selectedGenreObjekt?.description && (
-            <p className="italic">{selectedGenreObjekt.description}</p>
+            <p id="genre-description" className="italic">
+              {selectedGenreObjekt.description}
+            </p>
           )}
         </div>
       </div>
 
-      <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <section className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {filteredBooks.map((book) => (
           <BookCard key={book.id} book={book} />
         ))}

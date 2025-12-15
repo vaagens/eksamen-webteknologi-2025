@@ -14,8 +14,6 @@ export const Media: CollectionConfig = {
       type: 'text',
       required: true,
     },
-
-
   ],
   upload: {
     staticDir: 'media',
