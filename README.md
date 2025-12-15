@@ -63,7 +63,8 @@ Payload CMS admin panel er tilgjengelig på knappen i venstre hjørne evt. på`/
 - Forfattere
 - Sjangre
 - Aldersgrupper
-- Media (cover images)
+- Media (book/author images)
+- Orders
 
 ## Prosjektstruktur
 
@@ -120,7 +121,7 @@ Shopping cart modal med:
 - Quantity controls (+/-)
 - Fjern item funksjonalitet
 - Totalpris beregning
-- Tøm kurv og checkout (placeholder)
+- Tøm kurv og checkout
 
 ### cartStore (Zustand)
 State management for handlekurv:
