@@ -24,14 +24,21 @@ export const useCartStore = create<CartStore>()(
       addItem: (book) => {
         const currentItems = get().items
         const existingItem = currentItems.find((item) => item.book.id == book.id)
+        const stock = book.stock ?? 0
 
         if (existingItem) {
+          if (existingItem.quantity <= stock) {
+            return
+          }
           set({
             items: currentItems.map((item) =>
               item.book.id === book.id ? { ...item, quantity: item.quantity + 1 } : item,
             ),
           })
         } else {
+          if (stock <= 0) {
+            return
+          }
           set({
             items: [...currentItems, { book, quantity: 1 }],
           })
@@ -50,7 +57,8 @@ export const useCartStore = create<CartStore>()(
         } else {
           set({
             items: get().items.map((item) =>
-              item.book.id === bookId ? { ...item, quantity } : item,
+              item.book.id === bookId ? { ...item, quantity: Math.min(quantity, item.book.stock ?? 0) }
+                : item,
             ),
           })
         }
@@ -62,7 +70,7 @@ export const useCartStore = create<CartStore>()(
 
       getTotalPrice: () => {
         return get().items.reduce((total, item) => {
-          return total + (item.book.price || 0) * item.quantity
+          return total + (item.book.price ?? 0) * item.quantity
         }, 0)
       },
     }),
