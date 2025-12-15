@@ -39,10 +39,7 @@ export default function BookCard({ book }: BookCardProps) {
       <section className="mt-auto pb-5 font-semibold">
         {authors.map((author, index) => (
           <span key={author.slug}>
-            <Link
-              href={`/authors/${author.slug}`}
-              className="hover:underline"
-            >
+            <Link href={`/authors/${author.slug}`} className="hover:underline">
               {author.name}
             </Link>
             {index < authors.length - 1 && ', '}

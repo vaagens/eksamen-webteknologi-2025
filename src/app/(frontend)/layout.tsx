@@ -13,8 +13,11 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
   const { children } = props
 
   return (
-    <html lang="nb-NO"  className="h-screen bg-gradient-to-br from-yellow-50 via-orange-200 to-red-300 text-gray-900">
-      <body className="h-full grid grid-rows-[auto_1fr_auto]" >
+    <html
+      lang="nb-NO"
+      className="h-screen bg-gradient-to-br from-yellow-50 via-orange-200 to-red-300 text-gray-900"
+    >
+      <body className="grid h-full grid-rows-[auto_1fr_auto]">
         <Header />
         <main className="overflow-y-auto">{children}</main>
         <Footer />

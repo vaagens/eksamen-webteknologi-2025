@@ -18,7 +18,7 @@ export const Genres: CollectionConfig = {
       admin: {
         description: 'Hva kjennetegner denne sjangeren?',
         rows: 4,
-      }
-    }
+      },
+    },
   ],
 }

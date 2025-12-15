@@ -39,14 +39,11 @@ export default async function BookDetailPage({ params }: { params: Promise<{ slu
           <h2 className="text-xl font-bold">Forfatter:</h2>
           {authors.map((author, index) => (
             <span key={author.slug}>
-            <Link
-              href={`/authors/${author.slug}`}
-              className="hover:underline"
-            >
-              {author.name}
-            </Link>
+              <Link href={`/authors/${author.slug}`} className="hover:underline">
+                {author.name}
+              </Link>
               {index < authors.length - 1 && ', '}
-          </span>
+            </span>
           ))}
         </section>
 
