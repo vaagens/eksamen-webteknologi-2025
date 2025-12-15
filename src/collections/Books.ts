@@ -27,6 +27,7 @@ export const Books: CollectionConfig = {
       name: 'price',
       type: 'number',
       label: 'Pris',
+      required: true,
     },
     {
       name: 'author',
