@@ -197,8 +197,9 @@ export interface Author {
   id: number;
   name: string;
   /**
-   * Brukes i URL, feks "jo-nesbo"
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
    */
+  generateSlug?: boolean | null;
   slug: string;
   image?: (number | null) | Media;
   /**
@@ -230,10 +231,6 @@ export interface Genre {
   id: number;
   name?: string | null;
   /**
-   * Brukes i URL, feks "fantasy"
-   */
-  slug: string;
-  /**
    * Hva kjennetegner denne sjangeren?
    */
   description?: string | null;
@@ -249,7 +246,7 @@ export interface Book {
   title: string;
   description?: string | null;
   isbn?: string | null;
-  price?: number | null;
+  price: number;
   author: (number | Author)[];
   genres?: (number | Genre)[] | null;
   /**
@@ -261,6 +258,11 @@ export interface Book {
    */
   stock?: number | null;
   ageGroup?: (number | null) | AgeGroup;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -467,6 +469,7 @@ export interface MediaSelect<T extends boolean = true> {
  */
 export interface AuthorsSelect<T extends boolean = true> {
   name?: T;
+  generateSlug?: T;
   slug?: T;
   image?: T;
   bio?: T;
@@ -479,7 +482,6 @@ export interface AuthorsSelect<T extends boolean = true> {
  */
 export interface GenresSelect<T extends boolean = true> {
   name?: T;
-  slug?: T;
   description?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -498,6 +500,8 @@ export interface BooksSelect<T extends boolean = true> {
   coverImage?: T;
   stock?: T;
   ageGroup?: T;
+  generateSlug?: T;
+  slug?: T;
   updatedAt?: T;
   createdAt?: T;
 }

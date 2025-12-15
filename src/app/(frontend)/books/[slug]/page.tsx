@@ -4,46 +4,66 @@ import { AgeGroup, Author, Genre, Media } from '@/payload-types'
 import Image from 'next/image'
 import { BackButton } from '@/components/BackButton'
 import { AddToCartButton } from '@/components/AddToCartButton'
+import Link from 'next/link'
 
-export default async function BookPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params
+export default async function BookDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
   const payload = await getPayload({ config })
 
   try {
-    const book = await payload.findByID({
+    const { docs: books } = await payload.find({
       collection: 'books',
-      id,
+      where: {
+        slug: {
+          equals: slug,
+        },
+      },
       depth: 2,
+      limit: 1,
     })
+
+    const book = books[0]
 
     const authors = book.author as Author[]
     const cover = book.coverImage as Media
     const genres = book.genres as Genre[]
-    const age = book.ageGroup as AgeGroup | null
+    const age = book.ageGroup as AgeGroup
 
     return (
-      <article className="flex flex-col items-center gap-6 m-2">
-
+      <article className="m-2 flex flex-col items-center gap-6">
         <header>
           <h1 className="text-3xl font-bold">{book.title}</h1>
         </header>
 
         <section className="flex items-baseline gap-3">
           <h2 className="text-xl font-bold">Forfatter:</h2>
-          <p>{authors.map((a) => a.name).join(', ')}</p>
+          {authors.map((author, index) => (
+            <span key={author.slug}>
+              <Link href={`/authors/${author.slug}`} className="hover:underline">
+                {author.name}
+              </Link>
+              {index < authors.length - 1 && ', '}
+            </span>
+          ))}
         </section>
 
-        <section className="relative w-64 h-96">
-          <Image
-            src={cover?.sizes?.card?.url || ''}
-            alt={book.title}
-            fill
-            sizes="(max-width: 768px) 100vw, 200px"
-            className="object-cover rounded shadow-lg"
-          />
+        <section className="relative h-96 w-64">
+          {cover?.sizes?.card?.url ? (
+            <Image
+              src={cover.sizes.card.url}
+              alt={book.title}
+              fill
+              sizes="(max-width: 768px) 100vw, 200px"
+              className="rounded object-cover shadow-lg"
+            />
+          ) : (
+            <div className="flex h-96 w-64 items-center justify-center rounded border border-gray-200 bg-white shadow-lg">
+              <p className="text-gray-400">Ingen bilde</p>
+            </div>
+          )}
         </section>
 
-        <section className="text-center max-w-prose">
+        <section className="max-w-prose text-center">
           <h2 className="text-xl font-bold">Beskrivelse:</h2>
           <p>{book.description}</p>
         </section>
@@ -52,11 +72,11 @@ export default async function BookPage({ params }: { params: Promise<{ id: strin
           <h2 className="text-xl font-bold">Detaljer:</h2>
           <div className="flex items-baseline gap-3">
             <dt className="font-semibold">Sjanger:</dt>
-            <dd>{genres.map((g) => g.name).join(', ')}</dd>
+            <dd>{genres.map((g) => g.name).join(', ') || 'Ukjent'}</dd>
           </div>
           <div className="flex items-baseline gap-3">
             <dt className="font-semibold">Aldersgruppe:</dt>
-            <dd>{age?.ageGroup || 'Ukjent aldersgruppe'}</dd>
+            <dd>{age?.ageGroup || 'Ukjent'}</dd>
           </div>
           <div className="flex items-baseline gap-3">
             <dt className="font-semibold">ISBN:</dt>
@@ -76,20 +96,18 @@ export default async function BookPage({ params }: { params: Promise<{ id: strin
         </section>
 
         <section className="flex items-baseline gap-6">
-          <BackButton/>
-          <AddToCartButton/>
+          <BackButton />
+          <AddToCartButton book={book} />
         </section>
-
       </article>
     )
   } catch (error) {
     return (
       <div className="p-10 text-center">
         <h1 className="text-2xl font-semibold">Fant ikke boken</h1>
-        <p className=" m-2">Det finnes ingen bok med denne adressen.</p>
-        <BackButton/>
+        <p className="m-2">Det finnes ingen bok med denne adressen.</p>
+        <BackButton />
       </div>
-
     )
   }
 }

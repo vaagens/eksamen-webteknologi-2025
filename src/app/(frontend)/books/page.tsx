@@ -1,26 +1,25 @@
-import React from 'react'
 import '../globals.css'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import BookCard from '@/components/BookCard'
+import GenreFilter from '@/components/GenreFilter'
 
-export default async function HomePage() {
+export default async function BookPage() {
   try {
     const payload = await getPayload({ config })
 
-    const { docs: books} = await payload.find({
+    const { docs: books } = await payload.find({
       collection: 'books',
       limit: 0,
     })
-    return (
-      <div className="max-w-7xl mx-auto px-6 py-8">
-        <section>Filtrering TO-DO</section>
 
-        <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {books.map(book => (
-            <BookCard key={book.id} book={book} />
-          ))}
-        </section>
+    const { docs: genres } = await payload.find({
+      collection: 'genres',
+      limit: 0,
+    })
+
+    return (
+      <div className="mx-auto max-w-7xl px-6 py-8">
+        <GenreFilter books={books} genres={genres} />
       </div>
     )
   } catch (error) {
