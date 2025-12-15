@@ -16,7 +16,9 @@ export default function BookCard({ book }: BookCardProps) {
     <article className="flex h-full flex-col rounded-lg border p-4 shadow-lg">
       <Link href={`/books/${book.slug}`}>
         <div className="relative mb-4 aspect-[3/4] rounded-lg bg-gray-100">
-          {book.coverImage && typeof book.coverImage !== 'number' && book.coverImage.sizes?.card ? (
+          {book.coverImage &&
+          typeof book.coverImage !== 'number' &&
+          book.coverImage.sizes?.card?.url ? (
             <Image
               src={book.coverImage.sizes.card.url || ''}
               alt={book.title}
