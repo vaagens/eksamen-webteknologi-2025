@@ -14,7 +14,7 @@ export default function AuthorCard({ author }: AuthorCardProps) {
     >
       <article className="flex h-full flex-col rounded-lg border p-4 shadow-lg">
         <div className="relative mb-4 aspect-[3/4] rounded-lg bg-gray-100">
-          {author.image && typeof author.image !== 'number' && author.image.sizes?.card ? (
+          {author.image && typeof author.image !== 'number' && author.image.sizes?.card?.url? (
             <Image
               src={author.image.sizes.card.url || ''}
               alt={author.name}

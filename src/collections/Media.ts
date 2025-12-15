@@ -26,6 +26,7 @@ export const Media: CollectionConfig = {
         width: 200,
         height: 300,
         position: 'centre',
+        withoutEnlargement: false,
         formatOptions: {
           format: 'webp',
           options: {
@@ -38,6 +39,7 @@ export const Media: CollectionConfig = {
         width: 400,
         height: 600,
         position: 'centre',
+        withoutEnlargement: false,
         formatOptions: {
           format: 'webp',
           options: {
@@ -55,6 +57,7 @@ export const Media: CollectionConfig = {
     resizeOptions: {
       width: 1200,
       fit: 'inside',
+      withoutEnlargement: false,
     },
   },
 }
