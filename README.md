@@ -4,13 +4,14 @@ En e-handel nettside for salg av bøker, bygget med Next.js 15, Payload CMS og Z
 
 ##  Prosjektoversikt
 
-Dette prosjektet er en fullstack webapplikasjon for en bokhandel. Brukere kan bla gjennom bøker, filtrere etter sjanger, og legge produkter i en handlekurv. Applikasjonen har fokus på moderne teknologier, god arkitektur og brukeropplevelse.
+Dette prosjektet er en fullstack webapplikasjon for en bokhandel. Brukere kan bla gjennom forfattere og bøker, filtrere etter sjanger, og legge produkter i en handlekurv. Applikasjonen har fokus på moderne teknologier, god arkitektur og brukeropplevelse.
 
 ### Hovedfunksjoner
 
 - **Produktvisning**: Grid-layout med bokdetaljer, cover image, pris og lagerstatus
 - **Sjanger-filtrering**: Dynamisk dropdown for å filtrere bøker etter sjanger
 - **Handlekurv**: Full shopping cart funksjonalitet med Zustand state management
+- **Checkout-side**: Send inn bestillingsskjema
 - **CMS-integrasjon**: Payload CMS for enkel administrasjon av bøker, forfattere og sjangre
 - **Responsiv design**: Tailwind CSS for moderne, responsivt design
 
@@ -31,11 +32,6 @@ Dette prosjektet er en fullstack webapplikasjon for en bokhandel. Brukere kan bl
 - **Prettier** - Code formatting
 
 ## Kom i gang
-
-### Forutsetninger
-
-- Node.js (v18.20.2 eller >=20.9.0)
-- pnpm (v9 eller v10)
 
 ### Installasjon
 
@@ -58,8 +54,11 @@ npm run dev
 4. Åpne [http://localhost:3000](http://localhost:3000) i nettleseren
 
 ### Tilgang til Admin Panel
+Payload CMS admin panel er tilgjengelig på knappen i venstre hjørne evt. på`/admin` .
+- Brukernavn: `admin@bookdragons.no`
+- Password: `123`
 
-Payload CMS admin panel er tilgjengelig på knappen i venstre hjørne evt. på`/admin` . Her kan du administrere:
+ Her kan du administrere:
 - Bøker
 - Forfattere
 - Sjangre
@@ -136,10 +135,8 @@ State management for handlekurv:
 
 ### Server vs Client Components
 
-Jeg har brukt Next.js App Router sin hybride tilnærming:
-
 **Server Components** (default):
-- `books/page.tsx` - Henter data direkte fra Payload
+- Eks `books/page.tsx` - Henter data direkte fra Payload
 - Raskere initial load
 - Bedre for SEO
 - Mindre JavaScript til klienten
@@ -148,8 +145,8 @@ Jeg har brukt Next.js App Router sin hybride tilnærming:
 - `GenreFilter` - Trenger useState for filter state
 - `Cart` - Modal med interaktivitet
 - `AddToCartButton` - onClick handler for cart
+- `Backbutton` - onClick handler
 
-Dette gir optimal ytelse ved å kun sende JavaScript når det faktisk trengs.
 
 ### State Management
 
@@ -167,43 +164,53 @@ Tailwind CSS for:
 - Responsivt design out-of-the-box
 
 
-## Kjente utfordringer og løsninger
+## Utfordringer og løsninger
 
-### Author slug-field
-Opprinnelig issue med slug generation for forfattere. Løst ved å bruke Payload's `formatSlug` utility i en beforeValidate hook.
+### Stock og handlekurv
+Det var mulig å legge til flere varer enn det var på lager. Løst ved å legge til en 0 check i cartStore.
+PS. Det var en liten fiks, men dette ble lagt til etter at film var spilt inn så ta det i betraktning.
 
-Referanse: [Payload commit](https://github.com/payloadcms/payload/commit/b09ae6772f4b82dcf56b7e5253481d8fd7a2ceda)
+### Author og Book slug-field
+Opprinnelig issue med slug generation da jeg ønsket å bruke slug i steden for Id for dynamisk routing. Først måtte man legge det manuelt i admin panel. Løst ved å bruke Payload's `formatSlug`.
+
+Referanse GitHub: [Payload commit](https://github.com/payloadcms/payload/commit/b09ae6772f4b82dcf56b7e5253481d8fd7a2ceda)
 
 ### Nested Links (React Hydration Error)
 Problem: Kunne ikke ha `<Link>` inne i `<Link>` (forfatter-links inne i book card link).
 
 Løsning: Refaktorert BookCard til å kun ha Link rundt bilde og tittel, forfatter-links og cart-button er nå separate.
 
-### TypeScript null-safety
-`book.price` kan være null/undefined i TypeScript.
-
-Løsning: Bruker nullish coalescing operator (`?? 0`) i price calculations.
 
 ## Fremtidige forbedringer
 
-- [ ] Checkout flow
-- [ ] Brukerautentisering
-- [ ] Ordrehistorikk
-- [ ] Søkefunksjonalitet
-- [ ] Mer avansert filtrering (pris, aldersgruppe, forfatter)
-- [ ] Produktanmeldelser
-- [ ] Wishlist funksjonalitet
+- Icon som viser antall varer i handlevogn
+- Animasjon som viser når man legger noe i handlekurv.
+- Forbedre Admin layout
+- Stockindikator
+- Brukerautentisering
+- Ordrehistorikk
+- Søkefunksjonalitet
+- Mer avansert filtrering (pris, aldersgruppe, forfatter)
+- Produktanmeldelser
+- Wishlist funksjonalitet
 
-## Læringsutbytte
+## Kilder
 
-Dette prosjektet har gitt erfaring med:
-- Modern Next.js med App Router og Server Components
-- Headless CMS integrasjon
-- State management med Zustand
-- TypeScript i et fullstack-prosjekt
-- Component composition og reusability
-- Server/Client component separasjon for optimal ytelse
-- Semantic HTML og accessibility
+### Dokumentasjon
+- Min GA, Webteknologi modul
+- [Next.js docs](https://nextjs.org/docs)
+- [Payload docs](https://payloadcms.com/docs)
+- [Tailwind docs](https://v2.tailwindcss.com/docs)
+- [Zustand docs](https://zustand.docs.pmnd.rs/getting-started/introduction)
+- [GitHub Payload Commit](https://github.com/payloadcms/payload/commit/b09ae6772f4b82dcf56b7e5253481d8fd7a2ceda) - slugField
 
+### Media
+- [Unsplash](https://unsplash.com/) - Images
+- [SvgRepo](https://www.svgrepo.com/) - Logo
+- Lucide-react library - Icons
 
-*Utviklet som eksamensprosjekt i Webteknologi 2025*
+### AI-assistanse
+- Claude.ai ble brukt som sparringspartner for debugging,
+  forklaring av konsepter, og kvalitetssikring av kode.
+  All kode er skrevet og forstått av meg selv.
+- Chat GPT for genereing av forfatter og bok titler/description
