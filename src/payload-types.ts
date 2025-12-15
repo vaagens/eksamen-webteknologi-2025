@@ -246,7 +246,7 @@ export interface Book {
   title: string;
   description?: string | null;
   isbn?: string | null;
-  price?: number | null;
+  price: number;
   author: (number | Author)[];
   genres?: (number | Genre)[] | null;
   /**
@@ -289,7 +289,7 @@ export interface Order {
   customerName: string;
   phone: string;
   items: {
-    book: number | Author;
+    book: number | Book;
     quantity: number;
     /**
      * Prisen som gjaldt da bestillingen ble lagt

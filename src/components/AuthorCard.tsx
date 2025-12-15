@@ -1,5 +1,3 @@
-'use client'
-
 import { Author } from '@/payload-types'
 import Image from 'next/image'
 import Link from 'next/link'
